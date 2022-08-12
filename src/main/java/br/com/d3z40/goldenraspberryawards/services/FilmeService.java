@@ -18,6 +18,7 @@ public class FilmeService {
     private final FilmeRepository filmeRepository;
 
     private final FilmeRepositoryQueries filmeRepositoryQueries;
+
     private final ModelMapper modelMapper;
 
     private final long QUANTITY_WINNERS_BY_YEAR = 2;
@@ -31,7 +32,6 @@ public class FilmeService {
     public ResponseEntity<Filme> saveFilme(Filme filme) {
         return new ResponseEntity<>(filmeRepository.save(filme), HttpStatus.CREATED);
     }
-
 
     public ResponseEntity<List<FilmeResp>> getFilmesByWinnerIsTrueAndYearEquals(int year) {
         List<Filme> filmes = filmeRepository.getFilmesByWinnerIsTrueAndYearEquals(year);
@@ -66,7 +66,7 @@ public class FilmeService {
 
         populaIntervals(map);
 
-        return new ResponseEntity<>(getProducerIntervResp(map), HttpStatus.ALREADY_REPORTED);
+        return new ResponseEntity<>(getProducerIntervResp(map), HttpStatus.OK);
     }
 
     private ProducerIntervResp getProducerIntervResp(Map<String, List<Interval>> map) {
@@ -173,6 +173,7 @@ public class FilmeService {
         if (filmeOptional.isPresent()) {
             return new ResponseEntity<>(filmeOptional.get(), HttpStatus.OK);
         }
-        return null;
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
