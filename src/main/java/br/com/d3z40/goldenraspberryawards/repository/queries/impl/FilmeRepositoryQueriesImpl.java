@@ -1,5 +1,6 @@
 package br.com.d3z40.goldenraspberryawards.repository.queries.impl;
 
+import br.com.d3z40.goldenraspberryawards.model.Filme;
 import br.com.d3z40.goldenraspberryawards.model.response.Interval;
 import br.com.d3z40.goldenraspberryawards.model.response.StudioResp;
 import br.com.d3z40.goldenraspberryawards.model.response.YearResp;
@@ -74,6 +75,22 @@ public class FilmeRepositoryQueriesImpl implements FilmeRepositoryQueries {
         sql.append("    f.year                             ");
 
         TypedQuery<Interval> query = entity.createQuery(sql.toString(), Interval.class);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Filme> getFilmesJoinProducerJoinStudio() {
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT              ");
+        sql.append("    f,              ");
+        sql.append("    p,              ");
+        sql.append("    s               ");
+        sql.append("FROM Filme f        ");
+        sql.append("JOIN f.producers p  ");
+        sql.append("JOIN f.studios s    ");
+
+        TypedQuery<Filme> query = entity.createQuery(sql.toString(), Filme.class);
 
         return query.getResultList();
     }

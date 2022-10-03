@@ -6,25 +6,24 @@ import br.com.d3z40.goldenraspberryawards.model.Studio;
 import br.com.d3z40.goldenraspberryawards.model.response.*;
 import br.com.d3z40.goldenraspberryawards.repository.FilmeRepository;
 import br.com.d3z40.goldenraspberryawards.repository.queries.FilmeRepositoryQueries;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class FilmeServiceTest {
 
     private final int YEAR = 1990;
@@ -66,14 +65,15 @@ public class FilmeServiceTest {
 
     private FilmeService filmeService;
 
-    @MockBean
     private FilmeRepository filmeRepository;
 
-    @MockBean
     private FilmeRepositoryQueries filmeRepositoryQueries;
 
-    @Before
+    @BeforeEach
     public void setUp() {
+        filmeRepository = mock(FilmeRepository.class);
+        filmeRepositoryQueries = mock(FilmeRepositoryQueries.class);
+
         filmeService = new FilmeService(filmeRepository, filmeRepositoryQueries);
 
         studio1 = new Studio(1L, "Studio 1", filme1);
@@ -123,7 +123,7 @@ public class FilmeServiceTest {
 
     @Test
     public void deve_retornar_filmes_vencedores_por_ano() {
-        when(filmeRepository.getFilmesByWinnerIsTrueAndYearEquals(YEAR))
+        when(filmeRepository.getFilmesByWinnerIsTrueAndYearEquals(anyInt()))
                 .thenReturn(filmes);
 
         ResponseEntity<List<FilmeResp>> filmesWinner = filmeService.getFilmesByWinnerIsTrueAndYearEquals(YEAR);
@@ -191,8 +191,7 @@ public class FilmeServiceTest {
 
         RuntimeException runtimeException = assertThrows(
                 RuntimeException.class,
-                () -> filmeService.deleteFilmeById(filme1.getId())
-        );
+                () -> filmeService.deleteFilmeById(filme1.getId()));
 
         verify(filmeRepository).findById(1L);
         assertEquals(runtimeException.getMessage(), "Filme já foi vencedor, não permitido exclui-lo.");

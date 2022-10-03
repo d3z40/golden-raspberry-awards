@@ -5,6 +5,7 @@ import br.com.d3z40.goldenraspberryawards.model.response.*;
 import br.com.d3z40.goldenraspberryawards.repository.FilmeRepository;
 import br.com.d3z40.goldenraspberryawards.repository.queries.FilmeRepositoryQueries;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -165,6 +166,8 @@ public class FilmeService {
 
     public ResponseEntity<List<Filme>> getFilmes() {
         return new ResponseEntity<>(filmeRepository.findAll(), HttpStatus.OK);
+        //return new ResponseEntity<>(filmeRepository.getFilmesJoinProducerJoinStudio(), HttpStatus.OK);
+        //return new ResponseEntity<>(filmeRepositoryQueries.getFilmesJoinProducerJoinStudio(), HttpStatus.OK);
     }
 
     public ResponseEntity<Filme> getFilmeById(long id) {

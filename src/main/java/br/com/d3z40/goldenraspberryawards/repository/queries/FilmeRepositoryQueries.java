@@ -1,5 +1,6 @@
 package br.com.d3z40.goldenraspberryawards.repository.queries;
 
+import br.com.d3z40.goldenraspberryawards.model.Filme;
 import br.com.d3z40.goldenraspberryawards.model.response.Interval;
 import br.com.d3z40.goldenraspberryawards.model.response.StudioResp;
 import br.com.d3z40.goldenraspberryawards.model.response.YearResp;
@@ -13,4 +14,6 @@ public interface FilmeRepositoryQueries {
     List<StudioResp> getStudiosOrderByAwards();
 
     List<Interval> getProducersByInterval();
+
+    List<Filme> getFilmesJoinProducerJoinStudio();
 }

@@ -2,6 +2,8 @@ package br.com.d3z40.goldenraspberryawards.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Objects;
