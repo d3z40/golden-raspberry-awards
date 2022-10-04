@@ -1,5 +1,8 @@
 package br.com.d3z40.goldenraspberryawards;
 
+import io.restassured.RestAssured;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +15,13 @@ public abstract class GoldenRaspberryAwardsApplicationTests {
 
 	@Value("${local.server.port}")
 	protected int port;
+
+	@BeforeEach
+	public void setup() {
+		RestAssured.port = port;
+		RestAssured.baseURI = "http://localhost:8080/";
+		RestAssured.basePath = "awards";
+	}
 
 	@Test
 	void contextLoads() {
